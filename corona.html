@@ -16,7 +16,7 @@
 			outline:0;
 		}
 		#canvas{
-			
+			position: relative;
 			border: 1px solid black;
 			display: block;
 			margin :0%;
@@ -62,18 +62,35 @@
 				transform: scale(1.1);
 
 		}	
+		
+		.report{
+			position: absolute;
+			display: grid;
+			margin: 10px;
+		}
+		label{
+			padding-right: 80px;
+		}
 	</style>
 </head>
 <body>
 <div class="container">
-	<div class="screen">
+	<div class="report">
+		<div class = "result">
+				<label id = "noOfDays"> Day : 0 </label>
+				<label id = "totalPopulation"> Total population : 0 </label>
+				<label id = "totalInfected"> Total infected : 0 </label>
+				<label id = "totalDeath"> Total Death : 0 </label>
+				<label id = "totalCured"> Total Cured : 0 </label>
+		</div>
 		<center><canvas id="canvas" width="1200px" height="500px"></canvas></center>
 	</div>
 	<div class="components">
-	<input type="button" id="start" value="start" />
-	<input type="button" id="stop" value="stop" />
-	<input type="button" name="" id="isolate" value="isolate"/>
-	<input type="number" id="population" placeholder="total population" />
+		<input type="button" id="start" value="startSimulation"  onclick="startSimulation()"/>
+	<input type="button" id="start" value="start corona"  onclick="startCorona()"/>
+	<input type="button" id="stop" value="stop SImulation" onclick="stopSimulation()"/>
+	<input type="button" name="" id="isolate" value="isolate" onclick="isolatePeople()"/>
+	<input type="number" id="population" placeholder="total population"  value="500"/>
 	</div>
 </div>
 

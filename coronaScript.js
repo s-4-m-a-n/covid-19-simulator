@@ -1,10 +1,36 @@
+let startBtn = document.getElementById("start");
+let stopBtn = document.getElementById("stop");
+let isolate = document.getElementById("isolate");
+let populationField = document.getElementById("population");
+
+let daysDisplay = document.getElementById("noOfDays");
+let totalPopulationDisplay= document.getElementById("totalPopulation");
+let totalCuredDisplay = document.getElementById("totalCured");
+let totalDeathDisplay = document.getElementById("totalDeath");
+let totalInfectedDisplay = document.getElementById("totalInfected");
+
+
+// global variables
+	var MaxPeople;
+	var peopleList = [];
+	var totalCured = 0;
+	var totalDeath = 0;
+	var totalPopulation = 0; 
+
+	var aDay = 40; 
+	var dayCount = 0;
+
+
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
 
-var requestAnimationFrame = window.requestAnimationFrame|| window.mozRequestAnimationFrame|| window.webkitRequestAnimationFrame|| window.msRequestAnimationFrame ;
-var sourceX = parseInt(canvas.width/2);
-var sourceY = parseInt(canvas.height/2);
+// var requestAnimationFrame = window.requestAnimationFrame|| window.mozRequestAnimationFrame|| window.webkitRequestAnimationFrame|| window.msRequestAnimationFrame ;
+// var sourceX = parseInt(canvas.width/2);
+// var sourceY = parseInt(canvas.height/2);
+
+var sourceX = canvas.width +100;
+var sourceY = canvas.height + 100;
 
 var infectedList = [];
 
@@ -16,6 +42,8 @@ class People{
 		this.oldPosition = {'X':this.currentPosition.X,'Y':this.currentPosition.Y};
 		this.size = {'x':3,'y':3};
 		this.isInfected  = false;
+		this.alive = true; 
+		this.countDown = parseInt(Math.random()*100 + 100); // value 0 determines whether the infected one will be cured or dead
 		this.displayPeople();
 		
 	}
@@ -63,26 +91,78 @@ class People{
 		if (this.isInfected == false ){
 
 			var result = this.areContacted();
-			var dis = Math.sqrt(Math.pow((this.currentPosition.X-sourceX),2)+Math.pow((this.currentPosition.Y-sourceY),2));
-				// if ( result || (((this.currentPosition.X >= sourceX-5) && (this.currentPosition.X <= sourceX+5))&& ((this.currentPosition.Y >= sourceY-5)&&(this.currentPosition.Y <= sourceY+5) )) ){
+			
+		
+		var  dis = (infectedList.length == 0 )? Math.sqrt(Math.pow((this.currentPosition.X-sourceX),2)+Math.pow((this.currentPosition.Y-sourceY),2)) : 10 //greater than 5 always;
+		
 				if (result || dis < 5){
 						this.isInfected = true;	
 						infectedList.push({'X':this.currentPosition.X,'Y':this.currentPosition.Y,'id':this.id});		
 				}
 			}
+
 		else{
 
-		this.trackInfected();
+			this.countDown--;
+			this.trackInfected();
+			if (this.countDown == 0){
+				this.alive = this.willLive();
+				this.removePersonFromInfectedList(); // since either death or cured
 
+			}
 		}
 
 
 		this.displayPeople();
-
+		totalInfectedDisplay.innerText = "Total infected : " + infectedList.length;
 
 
 	}
 
+	removePersonFromInfectedList(){
+		var index = 0 ;
+		while(this.id != infectedList[index].id && index < infectedList.length)
+			index++;
+
+		if (index < infectedList.length){
+			infectedList.splice(index,1);
+		}
+	}
+
+
+	willLive(){
+		var chancesOfLiving = [1,1,1,1,1,1,1,1,0,0]; // dies two out of 10
+		 var index = parseInt(Math.random()*chancesOfLiving.length);
+
+			switch(chancesOfLiving[index]){
+				case 1:
+						this.cured();
+						totalCuredDisplay.innerText =  "Total Cured : "+ (totalCured++);
+						return true;
+						
+				case 0:
+						this.dead();
+						totalDeathDisplay.innerText = "Total Death : "+ (totalDeath++);
+						totalPopulationDisplay.innerText = "Total population : "+ totalPopulation--;
+						return false;
+						
+				default:
+						alert("exception");
+			}
+
+
+	}
+
+	cured(){
+		this.isInfected = false;
+		this.countDown = parseInt(Math.random()*100 + 100) ; //reset countdown
+	}
+
+
+	dead(){
+	
+		peopleList[this.id] = 0;
+	}
 
 	trackInfected(){
 
@@ -117,10 +197,11 @@ class People{
 
 	displayPeople(){
 		ctx.clearRect(this.oldPosition.X,this.oldPosition.Y,this.size.x,this.size.y);
-		
-		ctx.fillStyle = (this.isInfected==false)?'green':'red';
-		ctx.fillRect(this.currentPosition.X,this.currentPosition.Y,this.size.x,this.size.y);
-
+	
+		if (this.alive){
+			ctx.fillStyle = (this.isInfected==false)?'green':'red';
+			ctx.fillRect(this.currentPosition.X,this.currentPosition.Y,this.size.x,this.size.y);
+		}
 
 	}
 		
@@ -129,9 +210,23 @@ class People{
 }
 
 
-var MaxPeople = 400;
 
-var peopleList = [];
+
+
+
+let simulation;
+
+function startSimulation(){
+
+
+MaxPeople = populationField.value;
+
+clearScreen();
+
+//display total initial population
+totalPopulation =MaxPeople;
+totalPopulationDisplay.innerText = "Total population : "+ totalPopulation;
+
 
 for(i=0 ; i < MaxPeople;i++){
 	var x = parseInt(Math.random()*canvas.width);
@@ -139,20 +234,55 @@ for(i=0 ; i < MaxPeople;i++){
 	peopleList[i] = new People(i,x,y);
 }
 
-let simulation = setInterval(function(){
+
+
+ simulation = setInterval(function(){
+//----------------------
+	for (i=0;i < MaxPeople;i++){
+		if(peopleList[i] != 0) //determine person is dead
+			peopleList[i].move();
+	}
+
+//display days
+	aDay--;
+
+	if (aDay < 0){
+		daysDisplay.innerText = "Day : "+ dayCount++;
+		aDay = 40;
+	}
+
+if (infectedList.length != 0){ //after first infection removing source
+	sourceX = canvas.width +100;
+	sourceY = canvas.height + 100;
+}
+
+
+},50);
+
+
+}
+
+
+
+function startCorona(){
+	  sourceX = parseInt(canvas.width/2);
+ 	  sourceY = parseInt(canvas.height/2);
+ 	  alert("started");
  //-----------display origin -------
  	ctx.fillStyle = "red";
  	ctx.beginPath();
-	ctx.arc(sourceX,sourceY,5,0,2*Math.PI);
+	ctx.arc(sourceX,sourceY,1,0,2*Math.PI);
 	ctx.fill();
  //---------------------------------
-	for (i=0;i<MaxPeople;i++){
-		peopleList[i].move();
-	}
-	
-},70);
+}
 
- setTimeout(() => { clearInterval(simulation)},60000); //6sec
+function stopSimulation(){
+	 setTimeout(() => { clearInterval(simulation)},0); //6sec
+}
+function isolatePeople(){
 
+}
 
-console.log(infectedList.length);
+function clearScreen(){
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+}

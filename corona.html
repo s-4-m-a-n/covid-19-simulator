@@ -35,10 +35,13 @@
 
 		.container .screen{
 			grid-row: 1/2;
+			margin: 0;
+			padding:0;
 		}
 		.container .components{
 			grid-row: 2/3;
-
+			display: block;
+			z-index: 2;
 		}
 		input{
 			margin: 10px;
@@ -83,7 +86,7 @@
 				<label id = "totalDeath"> Total Death : 0 </label>
 				<label id = "totalCured"> Total Cured : 0 </label>
 		</div>
-		<center><canvas id="canvas" width="1200px" height="500px"></canvas></center>
+		<center><canvas id="canvas" width="500px" height="500px"></canvas></center>
 	</div>
 	<div class="components">
 		<input type="button" id="start" value="startSimulation"  onclick="startSimulation()"/>

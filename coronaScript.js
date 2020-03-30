@@ -17,9 +17,13 @@ let totalInfectedDisplay = document.getElementById("totalInfected");
 	var totalDeath = 0;
 	var totalPopulation = 0; 
 
-	var aDay = 40; 
+	var avgWalk = 300; // 3000 to 4000 per day 
 	var dayCount = 0;
+	var delay = 0.1;
+	var spreadingDistance = 3;
+	var ageClasses = ['8+','7','6','5','4','3','2','1'];
 
+	var infectedPace = 0.2;
 
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
@@ -40,10 +44,16 @@ class People{
 		this.id = id;
 		this.currentPosition = {'X':x , 'Y':y};
 		this.oldPosition = {'X':this.currentPosition.X,'Y':this.currentPosition.Y};
-		this.size = {'x':3,'y':3};
+		this.size = {'x':2,'y':2};
+		this.pace = this.size.x;
 		this.isInfected  = false;
 		this.alive = true; 
-		this.countDown = parseInt(Math.random()*100 + 100); // value 0 determines whether the infected one will be cured or dead
+		this.incubationPeriod = parseInt(Math.random()*2)+12; //12 to 14 days
+		this.countDown = this.incubationPeriod + parseInt(Math.random()*2 + 8); // value 0 determines whether the infected one will be cured or dead 
+		this.gender = (Math.random() < 0.7) ? 'm':'f';
+		
+		this.ageGroup = ageClasses[parseInt(Math.random()*ageClasses.length)] //['8+','7','6','5','4','3','2','1']; // 7 -> 70-79 , 1 -> 10-19
+
 		this.displayPeople();
 		
 	}
@@ -56,7 +66,7 @@ class People{
 			case 'f':   this.oldPosition.X = this.currentPosition.X;
 						this.oldPosition.Y = this.currentPosition.Y;
 						if (this.currentPosition.X < (canvas.width-this.size.x)){
-							this.currentPosition.X += this.size.x;
+							this.currentPosition.X += this.pace;
 						}
 
 						break;
@@ -65,21 +75,21 @@ class People{
 						this.oldPosition.X = this.currentPosition.X;
 						this.oldPosition.Y = this.currentPosition.Y;
 						if (this.currentPosition.Y < (canvas.height-this.size.y)){
-							this.currentPosition.Y += this.size.y;
+							this.currentPosition.Y += this.pace;
 						}
 						break;
 			case 'b': //backward
 						this.oldPosition.X = this.currentPosition.X;
 						this.oldPosition.Y = this.currentPosition.Y;
 						if (this.currentPosition.X > 0 ){
-							this.currentPosition.X -= this.size.x;
+							this.currentPosition.X -= this.pace;
 						}
 						break;
 			case 'u':
 						this.oldPosition.X = this.currentPosition.X;
 						this.oldPosition.Y = this.currentPosition.Y;
 						if (this.currentPosition.Y > 0 ){
-							this.currentPosition.Y -= this.size.y;
+							this.currentPosition.Y -= this.pace;
 						}
 						break;
 			default :
@@ -90,7 +100,7 @@ class People{
 		
 		if (this.isInfected == false ){
 
-			var result = this.areContacted();
+			var result = this.areInContact();
 			
 		
 		var  dis = (infectedList.length == 0 )? Math.sqrt(Math.pow((this.currentPosition.X-sourceX),2)+Math.pow((this.currentPosition.Y-sourceY),2)) : 10 //greater than 5 always;
@@ -102,8 +112,6 @@ class People{
 			}
 
 		else{
-
-			this.countDown--;
 			this.trackInfected();
 			if (this.countDown == 0){
 				this.alive = this.willLive();
@@ -131,16 +139,48 @@ class People{
 
 
 	willLive(){
-		var chancesOfLiving = [1,1,1,1,1,1,1,1,0,0]; // dies two out of 10
-		 var index = parseInt(Math.random()*chancesOfLiving.length);
+		// var chancesOfLiving;
+		let status; // '1' for alive , '0' for dead
+	switch(this.ageGroup){
+			case '8+': 
+						status = (parseInt(Math.random()*1000)/10 <= 15) ? '1' : '0';
+						break;
+			case '7':
+						status = (paseInt(Math.random()*1000)/10 <= 8) ? '1' : '0';
+						break;
+			case '6':
+						status = (parseInt(Math.random()*1000)/10 <= 4) ? '1' : '0';
+						break;
+			case '5':
+						status = (parseInt(Math.random()*1000)/10 <= 1) ? '1' : '0';
+						break;
+			case '4':
+						status = (parseInt(Math.random()*1000)/10 <= 1) ? '1' : '0';
+						break;
+			case '3':
+						status = (parseInt(Math.random()*1000)/10 <= 1) ? '1' : '0';
+						break;
+			case '2':
+						status = (paraseInt(Math.random()*1000)/10 <= 1) ? '1' : '0';
+						break;
+			case '1':
+						status = (parseInt(Math.random()*1000)/10 <= 1) ? '1' : '0';
+						break;
+			default:
+					console.log("exception");
 
-			switch(chancesOfLiving[index]){
-				case 1:
+	}	
+		// var chancesOfLiving = [1,1,1,1,1,1,1,1,0,0]; // dies two out of 10
+		 // var index = parseInt(Math.random()*chancesOfLiving.length);
+
+			// switch(chancesOfLiving[index]){
+				switch(status){
+				case '1':
 						this.cured();
 						totalCuredDisplay.innerText =  "Total Cured : "+ (totalCured++);
 						return true;
 						
-				case 0:
+				case '0':
 						this.dead();
 						totalDeathDisplay.innerText = "Total Death : "+ (totalDeath++);
 						totalPopulationDisplay.innerText = "Total population : "+ totalPopulation--;
@@ -154,8 +194,12 @@ class People{
 	}
 
 	cured(){
+
 		this.isInfected = false;
-		this.countDown = parseInt(Math.random()*100 + 100) ; //reset countdown
+		this.pace = this.size.x;
+		this.incubationPeriod = parseInt(Math.random()*2)+12 ; //reset incubationPeriod
+		this.countDown = this.incubationPeriod + parseInt(Math.random()*2+8);
+	
 	}
 
 
@@ -181,12 +225,12 @@ class People{
 	}
 
 
-	areContacted(){
+	areInContact(){
 		var d;
 		for (var j = 0 ; j < infectedList.length; j++){
 			 d = Math.sqrt(Math.pow((this.currentPosition.X-infectedList[j].X),2)+Math.pow((this.currentPosition.Y-infectedList[j].Y),2));
 				// if (((this.currentPosition.X >= (infectedList[j].X - 15) ) && (this.currentPosition.X <= (infectedList[j].X  + 15) )) && ((this.currentPosition.Y >= (infectedList[j].Y - 15) )&&(this.currentPosition.Y <= (infectedList[j].y  + 15) ))){
-			if (d < 15){
+			if (d < spreadingDistance){
 					  return true;
 				}
 		}
@@ -199,27 +243,30 @@ class People{
 		ctx.clearRect(this.oldPosition.X,this.oldPosition.Y,this.size.x,this.size.y);
 	
 		if (this.alive){
-			ctx.fillStyle = (this.isInfected==false)?'green':'red';
+			ctx.fillStyle = (this.isInfected==false)?'green':'yellow';
+
+			if (this.incubationPeriod < 0 ){
+				 ctx.fillStyle = 'red';
+				 this.pace = infectedPace; 
+				}
+
 			ctx.fillRect(this.currentPosition.X,this.currentPosition.Y,this.size.x,this.size.y);
+			
 		}
-
-	}
+	}	
 		
-		
-
 }
 
 
 
 
-
-
 let simulation;
-
+var totalWalk;
 function startSimulation(){
 
 
 MaxPeople = populationField.value;
+totalWalk = avgWalk;
 
 clearScreen();
 
@@ -229,14 +276,24 @@ totalPopulationDisplay.innerText = "Total population : "+ totalPopulation;
 
 
 for(i=0 ; i < MaxPeople;i++){
-	var x = parseInt(Math.random()*canvas.width);
-	var y = parseInt(Math.random()*canvas.height);
+	var x = parseInt(Math.random()*Math.random()*canvas.width);
+	var y = parseInt(Math.random()*Math.random()*canvas.height);
+
+	//exponential distribution 
+
+		// var x = (parseInt(Math.log(Math.random())/2*canvas.width));
+		// var y =(parseInt(Math.log(Math.random())/2*canvas.height));
+
+	// var x =Math.abs(parseInt(randn_bm()*canvas.width));
+	// var y = Math.abs(parseInt(randn_bm()*canvas.height));	
+
 	peopleList[i] = new People(i,x,y);
 }
 
 
 
  simulation = setInterval(function(){
+ 	ctx.clearRect(0,0,canvas.width,canvas.height);
 //----------------------
 	for (i=0;i < MaxPeople;i++){
 		if(peopleList[i] != 0) //determine person is dead
@@ -244,11 +301,22 @@ for(i=0 ; i < MaxPeople;i++){
 	}
 
 //display days
-	aDay--;
+	totalWalk--;
 
-	if (aDay < 0){
+
+	if (totalWalk < 0){ // represent one day 
 		daysDisplay.innerText = "Day : "+ dayCount++;
-		aDay = 40;
+		totalWalk = avgWalk ;
+
+		//--- decrement countdown and incubation period // per day
+				for (i=0;i < MaxPeople;i++){
+					if(peopleList[i] != 0 && peopleList[i].isInfected ) {//determine person is dead
+								peopleList[i].incubationPeriod--;
+								peopleList[i].countDown--;
+					}
+	}			
+
+
 	}
 
 if (infectedList.length != 0){ //after first infection removing source
@@ -257,7 +325,7 @@ if (infectedList.length != 0){ //after first infection removing source
 }
 
 
-},50);
+},delay);
 
 
 }
@@ -265,8 +333,8 @@ if (infectedList.length != 0){ //after first infection removing source
 
 
 function startCorona(){
-	  sourceX = parseInt(canvas.width/2);
- 	  sourceY = parseInt(canvas.height/2);
+	  sourceX = parseInt(canvas.width/3);
+ 	  sourceY = parseInt(canvas.height/3);
  	  alert("started");
  //-----------display origin -------
  	ctx.fillStyle = "red";

@@ -1,0 +1,93 @@
+	nav{
+			width:100%;
+			/*background-color: gray;*/
+		}
+	
+		nav ul{
+			display: flex;
+			flex-direction: row;
+			list-style: none;
+			background-color: white;
+			width:55%;
+				
+			justify-content: space-around;
+			padding:1%;
+		}
+
+		
+		ul li a {
+			text-decoration: none;
+			color:black;
+			font-family: arial;
+			font-size: 12px;
+			letter-spacing: 2px;
+		}
+
+		ul li a#home{
+			color:red;
+			text-decoration: underline;	
+		}
+
+		ul li a:hover{
+			text-decoration: underline;
+		}
+
+		#menuIcon{
+			width:4vw;
+			height:auto;
+		}
+		.menuHeader{
+			display: none;
+		}
+
+
+	@media screen and (max-width:600px){
+			nav {
+				background-color: white;
+			}
+			
+			.menuHeader{
+				display: block;
+				padding:2%;
+				cursor: pointer;
+				background-color: black;
+
+			}
+			nav ul{
+				/*display: none;*/
+				flex-direction: column;
+				padding:0;
+				box-shadow: 2px 2px 5px black;
+				border-top: 1px solid gray;
+				display: none; 
+				background-color: black;
+			
+			
+			}
+			nav ul li{
+				padding:5%;
+				width: 100%;
+				text-align: center;
+				border-bottom: 1px solid gray;
+			}
+			nav ul li a#home{
+				text-decoration: none;
+			}
+			nav ul li a {
+				font-size: 2.4vw;
+				color: white;
+				/*text-decoration: none;*/
+			}
+			nav ul li a:hover{
+				text-decoration: none;
+			}
+			nav ul li:hover{
+				background-color: gray;
+				cursor: pointer;
+			}
+
+			.active{
+				display: flex;
+			}
+
+		}

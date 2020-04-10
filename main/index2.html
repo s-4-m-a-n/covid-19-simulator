@@ -1,0 +1,347 @@
+<!-- =_%^ -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>covid19 home page</title>
+	<link rel="stylesheet" href="navStyle.css">
+	<style type="text/css">
+		:root{
+			--red : #A92E2D;
+			--gray:#323333;
+
+		}
+		*{
+			margin: 0;
+			padding:0;
+			box-sizing: border-box; 
+			/*border:1px solid black;*/
+		}
+		*:focus{
+			outline:none;
+		}
+		html,body{
+			width:100%;
+			/*height: 100%;*/
+		}
+		.container{
+			position: relative;
+			display: flex;
+			flex-direction: column;	
+			/*height: 100%;*/
+
+		}
+		nav{
+			height:auto;
+		}
+
+		.body{
+			
+			height: 400px;
+			display: flex;
+			flex-wrap: wrap-reverse;
+		
+		}
+		.buttons{
+			height: 200px;
+			/*height: auto;*/
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-wrap: wrap;
+		}
+		.buttons div{
+			margin-left: 5%; 
+		}
+
+		.buttons div input {
+			margin: 10px ;
+		}
+		.title{
+			padding-left:5%;
+			min-width: 300px;
+			height:100%;
+			flex:1 2 420px;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			
+		}
+		.covidImg{
+			height: 100%;
+			min-width: 300px;
+			flex:2 1 ;
+			display: flex;
+			align-items: center;
+			/*background-color: gray;*/
+		}
+
+.style{
+	position: absolute;
+	background-color: gray;
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: 100%;
+
+}
+
+.style .white{
+	width: 55%;
+	height: auto;
+	background-color: white;
+	/*flex:2 1 ;*/
+
+}
+
+
+
+@media (max-width: 720px){
+	.body{
+		height:auto;
+	}
+
+	.style{
+		display: none;
+	}
+	.covidImg{
+		height: 50%;
+		justify-content: center;
+		align-items: flex-end;
+	}
+	.text{
+		margin:auto; 
+	}
+	.buttons{
+		height:auto;
+	}
+	.buttons div{
+		margin: 10% 0;
+	}
+	
+
+}
+
+	  .covidImg img{
+	  	max-width: 400px;
+	  	height: auto;
+	  	margin-left: -30%;
+	  	animation : rotateAnimation 35s linear infinite;
+	  }
+
+
+	  @keyframes rotateAnimation{
+	  	to{  transform: rotate(360deg);  }
+	  }
+
+	  .text{
+	  	text-align: left;
+	  }
+	  #covidTitle{
+	  	/*font-size: 6vw;*/
+	  	font-size: 4.2em;
+	    margin-left: 10%;
+	    text-shadow: 5px 5px 3px grey;
+	    color: #681717;
+	  		  }
+	  #subtitle{
+	  	margin-left: 30%;
+	    margin-top: -2%;
+	    color: gray;
+	    font-size: 1.5vw;
+	    /*font-size: 1em;*/
+	  }
+	  #simulator{
+	  	/*font-size: 2vw;*/
+	  	font-size: 1.2em;
+	    margin-left: 22%;
+	    color: #681717;
+	    font-family: arial;
+	  }
+
+
+
+
+	.api{
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		margin-top:5%;
+	}
+
+	.api div{
+		background-color: var(--gray);
+		border-right:2px solid white;
+		color:white;
+		width:120px;
+		height:60px;
+		border-radius:15px;
+		text-align: center;
+		box-shadow: inset 0 0 7px gray ;
+		margin:1%;
+			}
+	.api .text-display{
+			padding:1% 0;
+			font-size: 0.7em;
+			/*text-decoration: underline;*/
+			color:gray;
+			
+		}
+	.api .count-display{
+			margin-top: 0.2em;
+			color:white;
+		}
+
+	
+    .btn1{
+			border:none;
+			/*background-color: #5E5E5E;*/
+			background-color: #A92E2D;
+			color:white;
+			border-radius: 25px;
+			width:7vw;
+			height:5vh;
+			min-width: 10em;
+			min-height: 2em;
+			box-shadow: 0px 0px 5px black;
+			cursor: pointer;
+			transition: .1s;
+			letter-spacing: 2px;
+			margin-left: 10%;
+
+
+    }
+    .btn1:hover{
+    	transform: scale(1.02);
+
+    }
+    .btn1:active{
+    	box-shadow: inset 0 0 10px black; 
+    }
+
+    .learnMore{
+    		align-self: center;	
+    		margin-top: 2%;
+
+    	}
+    .learnMoreBtn{
+    		/*background-color:  #A92E2D;*/
+    		font-size: 0.5em;
+    	}
+
+    .btnLarge {
+    	width:17vw;
+		height:7vh;
+		min-width: 12em;
+		/*background-color: var(--gray);*/
+		
+		
+    }
+
+
+
+
+</style>
+</head>
+<body>
+	<div class="style">
+		<div class="white"></div>
+		<div class="gray"></div>
+	</div>
+	<div class="container">
+		<nav>
+				<div class="menuHeader">
+				<img id="menuIcon" src="../assets/svg/menuIcon1.svg"/>
+			</div>
+			<ul id="menuSlide">
+				<li><a id="home" href="#">Home</a></li>
+				<li><a id="about" href="#">About</a></li>
+				<li><a href="#">Contact</a></li>
+				<li><a href="#">Help</a></li>
+			</ul>
+
+			
+		</nav>
+
+		<div class="body">
+			<div class="title">
+				<div class="text">
+					<h2 id="covidTitle">COVID-19</h2>
+					<h5 id="subtitle">corona virus disease 2019</h5>
+					<h3 id="simulator">SIMULATOR</h3>
+				</div>
+				<div class="api" style="position: relative;">
+					<p style="position:absolute;top:-25px;left:40px;color:gray;font-style: italic">world wide:</p>
+						<div> 
+								<p class="text-display">Total cases :</p>
+								<p class="count-display" id="totalCases" style="color:yellow">loading</p>
+						</div>
+						<div> 
+							<p class="text-display">Total death :</p>
+						    <p class="count-display" id="totalDeath" style="color:red">loading</p>
+						</div>
+						<div>
+						 <p class="text-display">Total recovery :</p>
+						 <p class="count-display" id="totalRecovery" style="color:green">loading</p>
+						</div>
+				</div>
+				<div class="learnMore">
+					<input class="learnMoreBtn btn1" type="button" value="learn more" onclick="redirectCovidUpdate()" />
+				</div>
+
+			</div>
+			<div class="covidImg">
+				<img src="../assets/svg/covid-19.png">
+			</div>
+		</div>
+		<div class="buttons">
+			<div class="simulateBtn">
+				<input class="btnLarge btn1" type="button" value="simulate" style="background-color: #5E5E5E;">
+			</div>
+			<div class="aboutBtn">
+				<input class="btnLarge btn1" type="button" value="about">
+			</div>
+		</div>
+	</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+function redirectCovidUpdate(){
+	let confirmation = confirm("you are about to leave this site !");
+
+	if (confirmation)
+		window.location.href = 'https://www.worldometers.info/coronavirus/?';
+
+}
+
+/* --------------- for responsive nav bar --------------------------- */
+		// $("#menuIcon").click(()=>{
+		// 	$("#menuSlide").toggle(200);
+		// });
+
+		const menuIcon = document.getElementById("menuIcon");
+		const menuSlide = document.getElementById("menuSlide");
+
+		menuIcon.addEventListener("click",()=>{
+			menuSlide.classList.toggle("active");
+		});
+
+/*----------------------------------------------------------------------*/
+
+// --------------- API ----------------------------
+$(document).ready(function(){
+			$.getJSON("https://corona.lmao.ninja/all",function(data){
+				  $("#totalCases").html(data.cases);
+				  $("#totalDeath").html(data.deaths);
+				  $("#totalRecovery").html(data.recovered);
+
+			});
+
+
+	});
+
+//----------------------------------------------------
+</script>
+</body>
+</html>

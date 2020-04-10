@@ -1,0 +1,283 @@
+<!-- =_%^ -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+	<title>covid-19 simulator</title>
+
+	<style>
+		:root{
+			--red : #A92E2D;
+		}
+		*{
+			margin:0;
+			padding:0;
+			font-family:Segoe UI;
+
+			/*border: 1px solid black;*/
+		}
+		*:focus{
+			outline:none;
+		}
+
+		html,body{
+			width:100%;
+			height:100%;
+			overflow: hidden;
+			
+		}
+		.container{
+			width:100%;
+			height:100%;
+			display: grid;
+			/*grid-template-rows: 70% auto;*/
+			grid-template-rows: 7% 60% auto ;
+		}
+		.nav{
+			grid-row: 1/2;
+			display: grid;
+			grid-template-columns: 60% auto; 
+		
+		}
+		.nav .left-nav{
+			grid-column: 1/2;
+			
+		}
+		.left-nav ul{
+			list-style: none;
+			display:inline-flex;
+		}
+		.left-nav ul li{
+			margin-left: 7vw;
+			margin-top:2vh;
+			margin-bottom: 2vh;
+		}
+		.left-nav ul li a{
+			text-decoration: none;
+			color:black;
+		}
+
+		.left-nav ul li#home {
+			border-bottom:2px solid black;
+		}
+
+		.nav .right-nav{
+			grid-column: 2/3;
+			background-color: #5E5D5D;
+		}
+
+		.main-block{
+			grid-row: 2/3;
+			display: grid;
+			grid-template-columns: 60% auto;
+			position:relative;
+		}
+		.main-block img{
+			position:absolute;
+			left:43%;
+			top:25%;
+
+			max-width:35%;
+			height:auto;
+		}
+		.main-block .left-block {
+			display: grid;
+			grid-template-rows: 20% 50% 20% auto ;
+			/*border:1px solid black;*/
+
+		}
+		.left-block .text{
+			grid-row: 2/3;
+			/*border:1px solid black;*/
+		}
+		.text #covid{
+			font-size: 7vw;
+			margin-left: 10%;
+			text-shadow: 5px 5px 3px gray;
+			color:#681717;
+		}
+		.text #subtitle{
+			margin-left: 30%;
+			margin-top: -2%;
+			color:gray;
+			font-size:1em; 
+
+		}
+		.text #simulator{
+			font-size: 1vw;
+			margin-left: 22%;
+			color:#681717;
+			font-family: arial;
+
+		}
+		.left-block .api{
+			grid-row: 3/4;
+			/*border:1px solid black;*/
+			display:inline-flex;
+			margin-left: 15%;
+			align-items: center;
+		}
+	
+
+		.api div{
+			background-color: #323333;
+			border-right:2px solid white;
+			color:white;
+			border-radius: 5px;
+			width:15%;
+			height:70%;
+			text-align: center;
+
+			box-shadow: inset 0 0 7px gray ;
+		}
+		.api .text-display{
+			font-size: 0.5em;
+			text-decoration: underline;
+			color:gray;
+		}
+		.api .count-display{
+			margin-top: 0.2em;
+		}
+
+		.left-block .learnMore{
+			grid-row: 4/5;
+		
+
+		}
+
+		.learnMore input[type='button']{
+			height: 95%;
+			width:14%;
+			background-color: var(--red) ;
+			margin-left: 26%;
+		}
+
+
+		.main-block .right-block{
+			background-color: #5E5D5D;
+		}
+		.footer{
+			display:grid;
+			grid-template-columns:60% auto; 
+		}
+
+		input[type='button']{
+
+			border:none;
+			background-color: #5E5E5E;
+			color:white;
+			border-radius: 25px;
+			width:20%;
+			height:20%;
+			box-shadow: 0px 0px 5px black;
+			cursor: pointer;
+			transition: .1s;
+			letter-spacing: 2px;
+
+		}
+		input[type='button']:hover{
+			transform: scale(1.02);
+
+
+		}
+		input[type='button']:active{
+			box-shadow: inset 0 0 10px black; 	
+		}
+		.left-footer input[type='button']{
+			float: right;
+			margin-right: 10%;
+			margin-top: 10%;
+
+			/* button style*/
+			width:26%;
+			border:1px solid #3d3d3d;
+
+			
+		}
+		.footer .right-footer {
+				background-color: #5E5D5D;
+		}
+		.right-footer input[type='button']{
+
+			margin-left: 10%;
+			margin-top: 15% ;
+
+			/* button style*/
+			background-color: var(--red);
+			width:40%;
+			border:1px solid #3d3d3d;
+		}
+
+
+
+	</style>
+</head>
+<body>
+<div class="container">
+	<div class="nav">
+		<div class="left-nav">
+			<ul>
+				<li id="home"><a href="#">Home</a></li>
+				<li id="information"><a href="#">Information</a></li>
+				<li id="aboutMe"><a href="#">About-Me</a></li>
+			</ul>
+		</div>
+		<div class="right-nav"></div>
+	</div>
+	<div class="main-block">
+		<img src="../assests/svg/covid-19.png">
+		<div class="left-block">
+			<div class="text">
+				<h2 id="covid">COVID-19</h2>
+				<h5 id="subtitle">corona virus disease 2019</h5>
+				<h3 id="simulator">SIMULATOR</h3>
+			</div>
+
+			<div class="api" style="position:relative">
+				<p style="position:absolute;top:-10px;color:gray;font-style: italic">world wide:</p>
+				<div> <p class="text-display">total cases</p>
+						<p class="count-display" id="totalCases">loading</p>
+				</div>
+				<div> <p class="text-display">total death</p>
+						<p class="count-display" id="totalDeath">loading</p>
+				</div>
+				<div> <p class="text-display">total recovery</p>
+						<p class="count-display" id="totalRecovery">loading</p>
+				</div>
+				
+			</div>
+			<div class="learnMore"><input type="button" value="learn more"></div>
+		</div>
+		<div class="right-block"></div>
+	</div>
+	<div class="footer">
+		<div class="left-footer">
+			<input type="button" value="simulate">
+		</div>
+		<div class="right-footer">
+			<input type="button" value="about">
+		</div>
+	</div>
+		
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+			$.getJSON("https://corona.lmao.ninja/all",function(data){
+				console.log(data);
+				  $("#totalCases").html(data.cases);
+				  $("#totalDeath").html(data.deaths);
+				  $("#totalRecovery").html(data.recovered);
+
+			});
+
+
+	});
+
+
+</script>
+</body>
+</html>

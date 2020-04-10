@@ -1,0 +1,105 @@
+<!-- =_% -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ant simulation</title>
+	<style type="text/css">
+		html,body{
+			width:100%;
+			height: 100%;
+			margin:0;
+			padding: 0;
+
+		}
+		*:focus{
+			outline:0;
+		}
+		#canvas{
+			position: relative;
+			border: 1px solid black;
+			display: block;
+			margin :0%;
+			padding: 0;	
+
+		}
+		.container{
+			width: 100%;
+			height:100%;
+			margin: 0;
+			padding:0;
+
+			display:grid;
+			grid-template-rows: 80% 20%; 
+		}
+
+		.container .screen{
+			grid-row: 1/2;
+			margin: 0;
+			padding:0;
+		}
+		.container .components{
+			grid-row: 2/3;
+			display: block;
+			z-index: 2;
+		}
+		input{
+			margin: 10px;
+			margin-left: 20px;
+		}
+		input[type="button"]{
+			background-color:#6E1F95;
+			border:0px;
+			border-radius: 25px;
+			box-shadow: 5px 5px 15px  black; 
+			color:yellow;
+			font-size: 1em;	
+			text-align: center;
+			cursor: pointer;
+			padding:1% 2%;
+			transition: .5s;
+
+		}
+
+		input[type="button"]:active{
+				transform: scale(1.1);
+
+		}	
+		
+		.report{
+			position: absolute;
+			display: grid;
+			margin: 10px;
+		}
+		label{
+			padding-right: 80px;
+		}
+	</style>
+</head>
+<body>
+<div class="container">
+	<div class="report">
+		<div class = "result">
+				<label id = "noOfDays"> Day : 0 </label>
+				<label id = "totalPopulation"> Total population : 0 </label>
+				<label id = "totalInfected"> Total infected : 0 </label>
+				<label id = "totalDeath"> Total Death : 0 </label>
+				<label id = "totalCured"> Total Cured : 0 </label>
+		</div>
+		<center><canvas id="canvas" width="500px" height="500px"></canvas></center>
+	</div>
+	<div class="components">
+		<input type="button" id="start" value="startSimulation"  onclick="startSimulation()"/>
+	<input type="button" id="start" value="start corona"  onclick="startCorona()"/>
+	<input type="button" id="stop" value="stop SImulation" onclick="stopSimulation()"/>
+	<input type="button" name="" id="isolate" value="isolate" onclick="isolatePeople()"/>
+	<input type="number" id="population" placeholder="total population"  value="500"/>
+	</div>
+</div>
+
+
+
+
+	<script type="text/javascript" src="coronaScript.js"></script>
+</body>
+</html>

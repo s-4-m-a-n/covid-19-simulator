@@ -1,0 +1,632 @@
+<!-- =_%^ -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<meta name="author" content="suman Dhakal">
+	<meta name="keywords" content="corona,covid19,covid-19,coronaSimulation,corona-Simulation">
+	<meta name="description" content="corona virus simulator">
+
+	<title>simulator</title>
+	<link rel="stylesheet" href="navStyle.css">
+	<style type="text/css">
+		:root{
+			
+			--brown : ;/* #1D0404;*/ /* nav bar*/
+			--green : ;/* #0BFB0B;*/
+			--darkRed : ; /*#4A2424;*/  /* right side bar */
+			--gray: ;/*#A0A7A0;*/ /* text color */
+			--gray2 : ;/*#4F534F;*/  /*disable text color*/
+			--transparentRed : ;/* #D6D4D4;*/  /*input field */
+			--darkRed2 : ;/* #F80B0B;*/   /*btn box shadow */
+			--background : ; /*black;*/
+
+			--navBar : #F9F5F5;
+			--rightSideBar : #ECE8E8;
+			--btnColor1: #560A0A;
+			--btnColor2: #AF1616;
+			--backgroundColor:#D4D0D0; 
+			--text-black:black;
+			--text-label:#545654;
+			--text-white:white;
+			--text-disable:#818281;
+			--boxShadow : #787474;
+			--blockColor:white;
+			--disableBtn : #666869;
+
+		}
+
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box; 
+			
+		}
+		*:focus{
+			outline: none;
+		}
+		html,body{
+			width:100%;
+			height: auto;
+
+		}
+
+		.container{
+			width:100%;
+			height:auto;
+			display: flex;
+			flex-direction: column;
+			/*border: 1px solid black;*/
+
+		}
+		nav{
+			width: auto;
+			height: auto;
+			background-color: var(--navBar);
+		}
+		nav ul li a {
+			color : var(--text-black);
+		}
+		nav ul li a#home{
+			text-decoration: none;
+			color: var(--text-black);
+		}
+		.body{
+			width:100%;
+			height:95%;
+			display:flex;
+			flex-direction: row;
+			flex-wrap: wrap-reverse;
+			justify-content: flex-start; 
+			background-color: var(--backgroundColor);
+		}
+		.leftSideBar{
+			width:4%;
+			background-color: var(--navBar);
+			box-shadow: 2px 0 5px var(--boxShadow);
+			border-radius: 2px;
+		}
+		.mainBlock{
+			width:70%;
+			min-width: 500px;
+			/*min-height: 1190px;*/
+			min-height: 1200px;
+			height: auto;
+			display: flex;
+			flex-direction: column;
+			/*border: 1px solid black;*/
+			/*background-color: var(--background);*/
+			/*margin: 5px;*/
+		}
+		.simBlock{
+			height: 140%;
+			/*border: 5px solid white;*/
+			background-color: var(--blockColor);
+			margin: 2% 1% 7% 1%;
+			border-radius: 5px; 
+			box-shadow: 0 0 10px var(--boxShadow);
+
+		}
+
+		.graphBlock{
+			height: 40%;
+			/*border: 1px solid black;*/
+			background-color: black;
+			margin:0 2% 2% 2%;
+			background-color:  var(--blockColor);
+			border-radius: 5px;
+			box-shadow: 0 0 10px var(--boxShadow);
+		}
+
+		.rightSideBar{
+			width: 25%;
+			min-width: 200px;
+			height: auto;
+			display: flex;
+			flex-direction: column;
+			margin: 1% 0; 
+			background-color:none;
+			/*background-color: var(--rightSideBar);*/
+
+		}
+		.simControlBlock{
+			height:50%;
+			min-height: 200px;
+			
+			background-color: var(--rightSideBar);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			box-shadow: 0 0 5px var(--boxShadow);
+			border-radius: 5px;
+		}
+		.graphControlBlock{
+			background-color: var(--rightSideBar);
+			height:auto;
+			width: 100%;
+			min-height: 200px;
+			background-color: var(--rightSideBar);
+			box-shadow: 0 0 5px var(--boxShadow);
+			border-radius: 5px;
+
+		}
+
+		input,select {
+			border:1px solid gray;
+			border-radius: 5px;
+			background-color: var(--transparentRed);
+			width:17%;
+			padding:1% 0 1%  2% ;
+
+		}
+		
+		#graphSelect{
+			width: 40%;
+			
+		}
+
+		input[type="checkbox"]{
+			-webkit-appearance :none;
+			position:relative;
+			width:8%;
+			height: 37%;
+			background-color: #b0aeae;
+			border-radius: 25px;
+			box-shadow: inset 0 0 4px #525252;
+			cursor: pointer;
+			transition: .5s;
+		}
+		input[type="checkbox"]:checked{
+			background-color: #6abeeb; 
+		}
+
+		input[type="checkbox"]:before{
+			content: ' ';
+			position:absolute;
+			top:0;
+			left:0;
+			width:50%;
+			height:105%;
+			background-color: white;
+			border-radius:100%;
+			transform: scale(1.3);
+			transition: .5s;
+		}
+
+		input:checked[type="checkbox"]:before{
+			left:45%;
+		}
+
+		.button{
+			margin:5% 2%; 
+			display: flex;
+			justify-content: space-around;
+			width: 100%;
+			flex-wrap: wrap;
+		}
+
+		.clickBtn{
+			border:none;
+			/*background-color: var(--btnColor2);*/
+			background-color: var(--btnColor1);
+			color:white;
+			border-radius: 25px;
+			width:10vw;
+			height:5vh;
+			min-width: 7em;
+			min-height: 2em;
+			box-shadow: 0px 0px 5px black;
+			cursor: pointer;
+			transition: .1s;
+			letter-spacing: 2px;
+			margin-left: 2%;
+			margin-top: 2%;
+			transition: .5s;
+    }
+
+    .clickBtn.s2{
+    	background-color: var(--btnColor2);
+    }
+
+    .clickBtn:hover{
+    	box-shadow: 0 0 10px red;
+    }
+    .clickBtn:active{
+    	color:var(--text-disable);
+    	transform: scale(0.9);
+    	box-shadow: inset 0 0 10px var(--boxShadow);
+    }
+    .clickBtn:disabled:hover{
+    	box-shadow:inline 0 0 10px var(--disableBtn);
+    	transform: scale(1);
+    }
+    .clickBtn:disabled{
+    	background-color: var(--disableBtn);
+    	color:var(--text-disable);
+    }
+
+		@media ( max-width: 1020px){
+
+			
+			.rightSideBar{
+				width:100%;
+				margin:0 5%;
+				flex-direction: row;	
+				background-color: none;
+				margin-top: 2%;
+			}
+			.simControlBlock{
+				width: 100%;
+				height: auto;
+			}
+			.graphControlBlock{
+				align-self: flex-start;
+				margin-left: 2%;
+			}
+			.mainBlock{
+				width:100%;
+				min-width: 700px;
+			}
+			.leftSideBar{
+				width:100%;
+				/*height:100%;*/
+				min-height: 50px;
+			}
+
+			input[type="checkbox"]{
+				width:7%;
+				height: 55%;
+			}
+			.text{
+				margin: 2%;
+			}
+
+		}
+
+
+
+
+		@media (max-width: 520px){
+			.rightSideBar{
+				width:100%;
+				margin:0 5%;
+				flex-direction: column;	
+			}
+			.simControlBlock{
+				width:100%;
+
+			}
+
+			/*nav ul li{
+				background-color: black;
+			}
+			nav ul li a{
+				color: white;
+			}
+			nav ul li a#home{
+				color:red;
+			}
+			nav ul{
+				position: absolute;
+				z-index: 2;
+			}
+*/
+		}
+
+	@media (max-width: 540px){
+
+			nav ul li{
+				background-color: black;
+			}
+			nav ul li a{
+				color: white;
+			}
+			nav ul li a#home{
+				color:red;
+			}
+			nav ul{
+				position: absolute;
+				z-index: 2;
+			}
+		}
+
+h3{
+			color: var(--text-disable);
+			font-size: 0.9em;
+			font-family:Segoe UI;
+			
+			letter-spacing: 2px;
+			margin-top:10px;
+
+	}
+
+.text{
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		align-items: center;
+		width: 100%;
+		height: 10%;
+		font-size: 0.7em;
+		font-family:Segoe UI;
+		font-weight: normal;
+		color: var(--text-label);
+		letter-spacing: 2px;
+	}
+
+
+.displayResult{
+	/*position: absolute;*/
+	/*top:60%;
+	left:60%;*/
+	border: 1px solid var(--text-disable);
+	width:90%;
+	height:20%;
+	margin:auto;
+	text-align: center;
+	background-color: var(--darkRed);
+	color:green;
+	box-shadow:  0 0 10px var(--boxShadow);
+	background-color: var(--blockColor);
+}
+.simBlock{
+	position: relative;
+}
+.description{
+	height: 5%;
+	box-shadow: 0 2px 7px var(--boxShadow);
+}
+.canvas{
+	height: 80%;
+	width: 96%;
+	padding:0 2%; 
+	position: relative;
+}
+
+#simDisplay , #gridCanvas{
+	position: absolute;
+}
+
+
+.resultData{
+	/*display: flex;
+	justify-content: space-around;*/
+	display: grid;
+	grid-template-columns: 50% 50% ;
+}
+
+.resultData h4{
+	font-family: serif;
+	color: var(--text-label);
+
+}
+
+	</style>
+
+</head>
+<body>
+	<div class="container">
+		<nav>
+				<div class="menuHeader">
+					<img id="menuIcon" src="../assets/svg/menuIcon1.svg" />
+				</div>
+
+				
+			<ul id="menuSlide" style="background-color: var(--brown);">
+				<li><a id="home" href="#">Home</a></li>
+				<li><a id="about" href="#">About</a></li>
+				<li><a href="#">Contact</a></li>
+				<li><a href="#">Help</a></li>
+			</ul>
+
+			</div>
+			
+			
+		</nav>
+		<div class="body">
+			<div class="leftSideBar"></div>
+			<div class="mainBlock">
+				<div class="simBlock">
+					<div class="description">
+						<h4 style="font-family: arial;color: var(--text-disable);font-size: 1.4vw;padding-top: 5px;margin-left:5% ">COVID-19 SIMULATOR</h4>
+						</div>
+					<div class="canvas" id="parent">
+						<canvas id="simDisplay"></canvas>  <!-- canvas -->
+						<canvas id="gridCanvas"></canvas>
+					</div>
+					<div class="displayResult">
+						<h3>Report</h3>
+						<hr style="margin:0 10%"/>
+
+						<div class="resultData">
+							<h4 class="resultData" >Day: <span id="totalDays"> 0</span></h4>
+							<h4 class="resultData">Initial Population:<span id="initialPopulation"> 0</span></h4>
+							<h4 class="resultData" >Total infected: <span id="totalInfected"> 0</span></h4>
+							<h4 class="resultData">Incubation Period:<span> 12 - 14 days</span></h4>
+							<h4 class="resultData">Total Recovered: <span id="totalRecovered">0 </span></h4>
+							<h4>---------------------</h4>
+							<h4 class="resultData">Total Death: <span id="totalDeath">0</span></h4>
+							<h4 >---------------------</h4>
+							<h4 class="resultData">Remaining Population: <span id="totalPopulation">0</span></h4>
+							<h4 >---------------------</h4>
+
+						</div>
+						<!-- <div class="resultData">
+							<h4>Day: <span id="totalDays"></span></h4>
+							<h4>Initial Population:<span id="totalPopulation"></span></h4>
+						</div>
+						<div class="resultData">
+							<h4>Total infected: <span id="totalInfected"></span></h4>
+							<h4>Incubation Period:<span> 12 - 14 days</span></h4>
+
+						</div>
+						<div class="resultData">
+							<h4>Total Recovered: <span id="totalRecovered"></span></h4>
+							<h4>---------------------</h4>
+						</div>
+						<div class="resultData">
+							<h4>Total Death: <span id="totalDeath"></span></h4>
+							<h4>---------------------</h4>
+						</div>
+ -->
+
+					</div>
+				</div>
+				<div class="graphBlock"></div>
+			</div>
+			<div class="rightSideBar">
+				<div class="simControlBlock">
+					<h3>User input </h3>
+					<div class="text">
+						<label><h4>Dark Mode</h4></label>
+						<input type="checkbox" />
+					</div>
+					<hr style="width:80%; border: 1px solid gray"  />
+					<div class="text">
+						<label><h4>Grid</h4></label>
+						<input type="checkbox" id="gridToggle" />
+					</div>
+					<hr style="width:80%; border: 1px solid gray"  />
+
+					<div class="text">
+						<label><h4>Population density</h4></label>
+						<input type="number"  id="population" value="500" />
+					</div>
+					<div class="text">
+						<label><h4>Animation Delay</h4></label>
+						<input type="number" id="animationDelay" value="1" />
+						<h4 style="margin-left: -15%">ms</h4>
+					</div>
+					<div class="button">
+						<input id="apply" class="clickBtn" type="button" value="Apply"  >
+						<input id="default" class="clickBtn" type="button" value="Default"  >
+					</div>
+					<hr style="width:80%; border: 1px solid gray"  />
+					
+					<div class="button">
+						<input class="clickBtn s2" id="startSimulation" type="button" value="Start Simulation" style="width:50%" onclick="startSimulation()">
+					</div>
+					<div class="button">
+						<input class="clickBtn s2" id="startSpreading" type="button" value="Start Spreding" style="width:50%" onclick="startSpreading()" disabled >
+					</div>
+					
+					<div class="button">
+						<input class="clickBtn s2" id="stopSimulation" type="button" value="stop Simulation" style="width:50%" onclick="stopSimulation()"  disabled>
+					</div>
+				</div>
+				<div class="graphControlBlock">
+					<center><h3 style="padding: 2% 0 5% 0; ">Graph control </h3></center>
+					<div class="text">
+						<label><h4>Graph type :</h4></label>
+						<select id="graphSelect">
+							<option value="0">death per day </option>
+							<option value="1">death per day </option>
+							<option value="2">death per day </option>
+							<option value="3">death per day </option>
+							<option value="4">death per day </option>
+						</select>
+					</div>
+					<div class="button">
+						<input class="clickBtn s2" type="button" value="Apply">
+					</div>
+					<div class="button">
+						<input class="clickBtn s2" type="button" value="Default">
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+<script type="text/javascript" src="simScript.js"></script>
+<script type="text/javascript">
+//------------------ nav bar --------------------------------------------
+	const menuIcon = document.getElementById("menuIcon");
+		const menuSlide = document.getElementById("menuSlide");
+
+	// const gridEnable = document.getElementById("gridToggle");
+
+		menuIcon.addEventListener("click",()=>{
+			menuSlide.classList.toggle("active");
+		});
+//-----------------------------------------------------------------------
+
+//-------------------- canvas --------------------------------------------
+
+
+	// const canvas = document.getElementById("simDisplay");
+	// const ctx = canvas.getContext("2d");
+
+	// var parent = document.getElementById("parent");
+	// canvas.width = parent.offsetWidth;
+	// canvas.height = parent.offsetHeight;
+	
+	// let gridSize = 20;
+	// let gridColor = "gray"; 
+
+
+// 	function displayGrid(){
+// 		//---- draw row --
+
+// 			ctx.lineWidth = 1;
+// 			ctx.strokeStyle = gridColor;
+			
+// 			for(i = 0 ; i <= parseInt(canvas.width/gridSize);i++){
+// 					ctx.beginPath();
+// 					ctx.moveTo(i*gridSize, 0);
+// 					ctx.lineTo(i*gridSize, canvas.height);
+// 					ctx.stroke();
+// 			}
+// 			for(i = 0 ; i <= parseInt(canvas.height/gridSize);i++){
+// 					ctx.beginPath();
+// 					ctx.moveTo(0,i*gridSize);
+// 					ctx.lineTo(canvas.width,i*gridSize);
+// 					ctx.stroke();
+// 			}
+
+// 			console.log(parseInt(canvas.width/gridSize),"row");
+// 			console.log(parseInt(canvas.height/gridSize),"col");
+
+
+// 	}
+
+// function clearScreen(){
+// 	ctx.clearRect(0,0,canvas.width,canvas.height);
+// }
+
+
+
+  //------------- event listeners -----------------
+  		// gridEnable.addEventListener("change",(e)=>{
+  		// 	if( e.target.checked)
+  		// 		 displayGrid();
+  		// 	else
+  		// 		clearScreen();
+  			
+  		// });
+
+
+//--------------------------------------------------------------------------
+
+
+// function body(){
+// 	ctx.strokeStyle = "red";
+
+// 	for (i=0; i<10;i=i+4){
+// 	ctx.beginPath();
+// 	ctx.arc(10+i,15,2,0,Math.PI*2);
+// 	ctx.stroke();
+//      }
+// }
+
+// body();
+
+
+</script>
+
+
+
+</body>
+</html>

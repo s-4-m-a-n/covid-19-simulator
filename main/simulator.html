@@ -10,6 +10,7 @@
 	<meta name="description" content="corona virus simulator">
 
 	<title>simulator</title>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	<link rel="stylesheet" href="navStyle.css">
 	<style type="text/css">
 		:root{
@@ -73,6 +74,10 @@
 			text-decoration: none;
 			color: var(--text-black);
 		}
+		nav ul li:hover{
+			text-decoration: underline;
+		} 
+		
 		.body{
 			width:100%;
 			height:95%;
@@ -111,7 +116,7 @@
 		}
 
 		.graphBlock{
-			height: 40%;
+			height: 60%;
 			/*border: 1px solid black;*/
 			background-color: black;
 			margin:0 2% 2% 2%;
@@ -170,8 +175,8 @@
 		input[type="checkbox"]{
 			-webkit-appearance :none;
 			position:relative;
-			width:8%;
-			height: 37%;
+			width:2vw;
+			height: 1.3vw;
 			background-color: #b0aeae;
 			border-radius: 25px;
 			box-shadow: inset 0 0 4px #525252;
@@ -187,9 +192,10 @@
 			position:absolute;
 			top:0;
 			left:0;
-			width:50%;
-			height:105%;
+			width:1vw;
+			height:1vw;
 			background-color: white;
+			border:1px solid gray;
 			border-radius:100%;
 			transform: scale(1.3);
 			transition: .5s;
@@ -276,8 +282,12 @@
 			}
 
 			input[type="checkbox"]{
-				width:7%;
-				height: 55%;
+				width:4vw;
+				height: 1.4vw;
+			}
+			input[type="checkbox"]:before{
+				width:1.4vw;
+				height: 1.4vw;
 			}
 			.text{
 				margin: 2%;
@@ -315,22 +325,7 @@
 */
 		}
 
-	@media (max-width: 540px){
-
-			nav ul li{
-				background-color: black;
-			}
-			nav ul li a{
-				color: white;
-			}
-			nav ul li a#home{
-				color:red;
-			}
-			nav ul{
-				position: absolute;
-				z-index: 2;
-			}
-		}
+	
 
 h3{
 			color: var(--text-disable);
@@ -357,12 +352,12 @@ h3{
 	}
 
 
-.displayResult{
+.displayResult{   /*display report*/
 	/*position: absolute;*/
 	/*top:60%;
 	left:60%;*/
 	border: 1px solid var(--text-disable);
-	width:90%;
+	width:80%;
 	height:20%;
 	margin:auto;
 	text-align: center;
@@ -377,6 +372,8 @@ h3{
 .description{
 	height: 5%;
 	box-shadow: 0 2px 7px var(--boxShadow);
+	display: flex;
+	justify-content: space-around;
 }
 .canvas{
 	height: 80%;
@@ -403,6 +400,28 @@ h3{
 
 }
 
+.dot{
+	width:15px;
+	height: 15px;
+	background-color: green;
+	border: 1px solid white;
+	border-radius: 100%;
+	display:inline-block;
+	box-shadow: 1px 2px 5px var(--boxShadow);
+
+}
+
+.dot.purple{
+	background-color:purple; 
+}
+.dot.red{
+	background-color: red;
+}
+
+.smallText{
+	font-size: 0.7em;
+}
+
 	</style>
 
 </head>
@@ -415,7 +434,7 @@ h3{
 
 				
 			<ul id="menuSlide" style="background-color: var(--brown);">
-				<li><a id="home" href="#">Home</a></li>
+				<li><a id="home" href="./index2.html">Home</a></li>
 				<li><a id="about" href="#">About</a></li>
 				<li><a href="#">Contact</a></li>
 				<li><a href="#">Help</a></li>
@@ -431,6 +450,9 @@ h3{
 				<div class="simBlock">
 					<div class="description">
 						<h4 style="font-family: arial;color: var(--text-disable);font-size: 1.4vw;padding-top: 5px;margin-left:5% ">COVID-19 SIMULATOR</h4>
+						 <h3 class="smallText">Healthy :<span class="dot green"></span></h3>
+						 <h3 class="smallText">Infected :<span class="dot purple"></span></h3>
+						 <h3 class="smallText">Incubated & isolated :<span class="dot red"></span></h3>
 						</div>
 					<div class="canvas" id="parent">
 						<canvas id="simDisplay"></canvas>  <!-- canvas -->
@@ -443,38 +465,22 @@ h3{
 						<div class="resultData">
 							<h4 class="resultData" >Day: <span id="totalDays"> 0</span></h4>
 							<h4 class="resultData">Initial Population:<span id="initialPopulation"> 0</span></h4>
-							<h4 class="resultData" >Total infected: <span id="totalInfected"> 0</span></h4>
+							<h4 class="resultData" >Total infected: <span id="totalInfected" style="color:purple"> 0</span></h4>
 							<h4 class="resultData">Incubation Period:<span> 12 - 14 days</span></h4>
-							<h4 class="resultData">Total Recovered: <span id="totalRecovered">0 </span></h4>
+							<h4 class="resultData">Total Recovered: <span id="totalRecovered" style="color:green">0 </span></h4>
 							<h4>---------------------</h4>
-							<h4 class="resultData">Total Death: <span id="totalDeath">0</span></h4>
+							<h4 class="resultData">Total Death: <span id="totalDeath" style="color:red">0</span></h4>
 							<h4 >---------------------</h4>
 							<h4 class="resultData">Remaining Population: <span id="totalPopulation">0</span></h4>
 							<h4 >---------------------</h4>
 
 						</div>
-						<!-- <div class="resultData">
-							<h4>Day: <span id="totalDays"></span></h4>
-							<h4>Initial Population:<span id="totalPopulation"></span></h4>
-						</div>
-						<div class="resultData">
-							<h4>Total infected: <span id="totalInfected"></span></h4>
-							<h4>Incubation Period:<span> 12 - 14 days</span></h4>
-
-						</div>
-						<div class="resultData">
-							<h4>Total Recovered: <span id="totalRecovered"></span></h4>
-							<h4>---------------------</h4>
-						</div>
-						<div class="resultData">
-							<h4>Total Death: <span id="totalDeath"></span></h4>
-							<h4>---------------------</h4>
-						</div>
- -->
-
+						
 					</div>
 				</div>
-				<div class="graphBlock"></div>
+				<div class="graphBlock">
+					<canvas id="myChart" style ="padding:40px"></canvas>
+				</div>
 			</div>
 			<div class="rightSideBar">
 				<div class="simControlBlock">
@@ -492,7 +498,7 @@ h3{
 
 					<div class="text">
 						<label><h4>Population density</h4></label>
-						<input type="number"  id="population" value="500" />
+						<input type="number"  id="population" value="800" />
 					</div>
 					<div class="text">
 						<label><h4>Animation Delay</h4></label>
@@ -521,18 +527,19 @@ h3{
 					<div class="text">
 						<label><h4>Graph type :</h4></label>
 						<select id="graphSelect">
-							<option value="0">death per day </option>
-							<option value="1">death per day </option>
-							<option value="2">death per day </option>
-							<option value="3">death per day </option>
-							<option value="4">death per day </option>
+							<option value="line">line garph </option>
+							<option value="bar" selected>bar graph </option>
+							<option value="doughnut" disabled>doughnut graph </option>
+							<option value="radar" disabled>Radar graph </option>
+							<option value="polarArea">polarArea graph </option>
+
 						</select>
 					</div>
 					<div class="button">
-						<input class="clickBtn s2" type="button" value="Apply">
+						<input class="clickBtn s2" type="button" value="Apply" onclick="applyGraphType()">
 					</div>
 					<div class="button">
-						<input class="clickBtn s2" type="button" value="Default">
+						<input class="clickBtn s2" type="button" value="Default" onclick="setGraphDefault()">
 					</div>
 
 				</div>

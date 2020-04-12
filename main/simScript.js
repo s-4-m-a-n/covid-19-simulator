@@ -5,6 +5,19 @@ const startSpreadingBtn = document.getElementById("startSpreading");
 const applyBtn = document.getElementById("apply");
 const defaultBtn = document.getElementById("default");
 
+const graphSelect = document.getElementById("graphSelect");
+
+
+//---------------- report data item -----------------
+
+const totalDaysDisplay = document.getElementById("totalDays");
+const initialPopulationDisplay = document.getElementById("initialPopulation");
+const totalInfectedDisplay = document.getElementById("totalInfected");
+const totalRecoveredDisplay = document.getElementById("totalRecovered");
+const totalDeathDisplay = document.getElementById("totalDeath");
+const totalPopulationDisplay = document.getElementById("totalPopulation");
+
+//-------------------------------------------------
 
 
 const totalPeople = document.getElementById("population");
@@ -36,6 +49,7 @@ const ctx2 = canvas2.getContext("2d");
 	var totalCured = 0;
 	var totalDeath = 0;
 	var totalPopulation = 0; 
+	var totalInfectedCount = 0;  //total infected till now
 
 	var avgWalk = 300; // 3000 to 4000 per day 
 	var dayCount = 0;
@@ -47,8 +61,17 @@ const ctx2 = canvas2.getContext("2d");
 
 
 	//-------------settings---------------------
-	 let gridSize = 20;
-	 let gridColor = "gray"; 
+
+		//-------default settings ------------
+			const graphTypeDefault = graphSelect.value;
+			const gridSizeDefault = 20;
+			const gridColorDefault = "gray";
+
+	//--------------------------
+	let graphType  = graphTypeDefault;
+	 let gridSize = gridSizeDefault;
+	 let gridColor = gridColorDefault; 
+
 
 
 
@@ -98,7 +121,7 @@ class People{
 		this.id = id;
 		this.currentPosition = {'X':x , 'Y':y};
 		this.oldPosition = {'X':this.currentPosition.X,'Y':this.currentPosition.Y};
-		this.size = {'x':4,'y':4};
+		this.size = {'x':2,'y':2};
 		this.pace = this.size.x;
 		this.isInfected  = false;
 		this.alive = true; 
@@ -161,7 +184,8 @@ class People{
 		
 				if (result || dis < 5){
 						this.isInfected = true;	
-						infectedList.push({'X':this.currentPosition.X,'Y':this.currentPosition.Y,'id':this.id});		
+						infectedList.push({'X':this.currentPosition.X,'Y':this.currentPosition.Y,'id':this.id});	
+						totalInfectedCount++;	
 				}
 			}
 
@@ -177,6 +201,7 @@ class People{
 
 		this.displayPeople();
 		// totalInfectedDisplay.innerText = "Total infected : " + infectedList.length;
+			totalInfectedDisplay.innerText = infectedList.length;
 
 
 	}
@@ -197,28 +222,28 @@ class People{
 		let status; // '1' for alive , '0' for dead
 	switch(this.ageGroup){
 			case '8+': 
-						status = (parseInt(Math.random()*1000)/10 <= 15) ? '1' : '0';
+						status = (parseInt(Math.random()*1000)/10 <= 15) ? '0' : '1';
 						break;
 			case '7':
-						status = (paseInt(Math.random()*1000)/10 <= 8) ? '1' : '0';
+						status = (parseInt(Math.random()*1000)/10 <= 8) ? '0' : '1';
 						break;
 			case '6':
-						status = (parseInt(Math.random()*1000)/10 <= 4) ? '1' : '0';
+						status = (parseInt(Math.random()*1000)/10 <= 4) ? '0' : '1';
 						break;
 			case '5':
-						status = (parseInt(Math.random()*1000)/10 <= 1) ? '1' : '0';
+						status = (parseInt(Math.random()*1000)/10 <= 1) ? '0' : '1';
 						break;
 			case '4':
-						status = (parseInt(Math.random()*1000)/10 <= 1) ? '1' : '0';
+						status = (parseInt(Math.random()*1000)/10 <= 1) ? '0' : '1';
 						break;
 			case '3':
-						status = (parseInt(Math.random()*1000)/10 <= 1) ? '1' : '0';
+						status = (parseInt(Math.random()*1000)/10 <= 1) ? '0' : '1';
 						break;
 			case '2':
-						status = (paraseInt(Math.random()*1000)/10 <= 1) ? '1' : '0';
+						status = (parseInt(Math.random()*1000)/10 <= 1) ? '0' : '1';
 						break;
 			case '1':
-						status = (parseInt(Math.random()*1000)/10 <= 1) ? '1' : '0';
+						status = (parseInt(Math.random()*1000)/10 <= 1) ? '0' : '1';
 						break;
 			default:
 					console.log("exception");
@@ -232,12 +257,17 @@ class People{
 				case '1':
 						this.cured();
 						// totalCuredDisplay.innerText =  "Total Cured : "+ (totalCured++);
+							totalRecoveredDisplay.innerText = totalCured++;
 						return true;
 						
 				case '0':
 						this.dead();
 						// totalDeathDisplay.innerText = "Total Death : "+ (totalDeath++);
 						// totalPopulationDisplay.innerText = "Total population : "+ totalPopulation--;
+							totalDeathDisplay.innerText = totalDeath++;
+							totalPopulationDisplay.innerText = totalPopulation--;
+							//update chart
+							
 						return false;
 						
 				default:
@@ -258,7 +288,6 @@ class People{
 
 
 	dead(){
-	
 		peopleList[this.id] = 0;
 	}
 
@@ -283,7 +312,6 @@ class People{
 		var d;
 		for (var j = 0 ; j < infectedList.length; j++){
 			 d = Math.sqrt(Math.pow((this.currentPosition.X-infectedList[j].X),2)+Math.pow((this.currentPosition.Y-infectedList[j].Y),2));
-				// if (((this.currentPosition.X >= (infectedList[j].X - 15) ) && (this.currentPosition.X <= (infectedList[j].X  + 15) )) && ((this.currentPosition.Y >= (infectedList[j].Y - 15) )&&(this.currentPosition.Y <= (infectedList[j].y  + 15) ))){
 			if (d < spreadingDistance){
 					  return true;
 				}
@@ -362,6 +390,7 @@ function startSimulation(){
 
 
 		MaxPeople = totalPeople.value;
+				
 		totalWalk = avgWalk;
 
 		clearScreen(ctx);
@@ -374,7 +403,8 @@ function startSimulation(){
 
 		//display total initial population
 		totalPopulation =MaxPeople;
-		// totalPopulationDisplay.innerText = "Total population : "+ totalPopulation;
+				initialPopulationDisplay.innerText  = MaxPeople;
+				totalPopulationDisplay.innerText = totalPopulation; 
 
 
 		for(i=0 ; i < MaxPeople;i++){
@@ -408,6 +438,8 @@ function startSimulation(){
 
 			if (totalWalk < 0){ // represent one day 
 				// daysDisplay.innerText = "Day : "+ dayCount++;
+					totalDaysDisplay.innerText = dayCount++;
+					updateChart(dayCount,totalDeath,totalInfectedCount,totalCured);             // update chart 
 				totalWalk = avgWalk ;
 
 				//--- decrement countdown and incubation period // per day
@@ -465,3 +497,116 @@ function isolatePeople(){
 function clearScreen(ctx){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 }
+
+
+
+
+
+//----------------------------------------------- for chart . js ----------------------------------------------------------
+
+var ctx3 = document.getElementById('myChart').getContext('2d');
+		let dataDeath = [];
+		let dataInfected = [];
+		let dataRecovered = []; 
+		let labelset = [];
+
+let chart;
+
+function displayChart(){
+		 chart = new Chart(ctx3,{
+
+			type : graphType,
+			data:{
+				labels:labelset,
+				datasets:[{
+					label:'totalDeath',
+					data:dataDeath,
+					borderColor:'red',
+					backgroundColor:"#e8b5b8",
+				},
+				{
+					label:'total infected',
+					data: dataInfected,
+					borderColor:'purple',
+					backgroundColor:"#dab5e8"
+
+					
+				},
+				{
+					label:'total Recovered',
+					data: dataRecovered,
+					borderColor:'green',
+					backgroundColor:'#bcedb9'
+
+				}]
+			},
+
+			options:{
+				title:{
+					text:" covid-19 simulation chart ",
+					display:true
+				},
+				maintainAspectRatio:false
+			}
+		});
+
+
+}
+
+displayChart();
+
+function updateChart(dayCount,death,infected,recovered){
+	
+	  	chart.data.labels.push('day-'+(dayCount));
+   		chart.data.datasets[0].data.push(death);
+   		chart.data.datasets[1].data.push(infected);
+   		chart.data.datasets[2].data.push(recovered);
+		chart.update();	
+}
+
+// let update = setInterval(function(){
+	
+	 // chart.data.datasets.forEach((dataset) => {
+  //       dataset.data.push(parseInt(Math.random()*100));
+  //   });
+	 // chart.data.datasets.forEach((dataset) => {
+  //       dataset.data.push(parseInt(Math.random()*100));
+  //   });
+
+  
+ //  chart.data.labels.push('day-'+(++day));
+ //   chart.data.datasets[0].data.push(parseInt(Math.random()*100));
+
+	// count++;
+
+	// chart.update();
+
+// },200);
+
+// setTimeout(() => { clearInterval(update)},10000); 
+
+// chart.canvas.parentNode.style.height = '500px';
+// chart.canvas.parentNode.style.width = '500px';
+
+//-------------------------------------- graph control -------------------------------------------------
+	function applyGraphType(){
+		graphType = graphSelect.value;
+		chart.type = graphType;
+		console.log(chart.type);
+		chart.destroy();
+		displayChart();
+	}
+
+function setGraphDefault(){
+	graphType = graphTypeDefault;
+	chart.type = graphType;
+	graphSelect.value = graphTypeDefault;
+	console.log(chart.type);
+	chart.destroy();
+	displayChart();
+
+
+}
+
+
+//-----------------------------------------------------------------------------------------------------

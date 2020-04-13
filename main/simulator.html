@@ -14,16 +14,7 @@
 	<link rel="stylesheet" href="navStyle.css">
 	<style type="text/css">
 		:root{
-			
-			--brown : ;/* #1D0404;*/ /* nav bar*/
-			--green : ;/* #0BFB0B;*/
-			--darkRed : ; /*#4A2424;*/  /* right side bar */
-			--gray: ;/*#A0A7A0;*/ /* text color */
-			--gray2 : ;/*#4F534F;*/  /*disable text color*/
-			--transparentRed : ;/* #D6D4D4;*/  /*input field */
-			--darkRed2 : ;/* #F80B0B;*/   /*btn box shadow */
-			--background : ; /*black;*/
-
+	
 			--navBar : #F9F5F5;
 			--rightSideBar : #ECE8E8;
 			--btnColor1: #560A0A;
@@ -36,6 +27,7 @@
 			--boxShadow : #787474;
 			--blockColor:white;
 			--disableBtn : #666869;
+			--inputField: #d9d9d9;
 
 		}
 
@@ -59,7 +51,6 @@
 			height:auto;
 			display: flex;
 			flex-direction: column;
-			/*border: 1px solid black;*/
 
 		}
 		nav{
@@ -96,14 +87,10 @@
 		.mainBlock{
 			width:70%;
 			min-width: 500px;
-			/*min-height: 1190px;*/
 			min-height: 1200px;
 			height: auto;
 			display: flex;
 			flex-direction: column;
-			/*border: 1px solid black;*/
-			/*background-color: var(--background);*/
-			/*margin: 5px;*/
 		}
 		.simBlock{
 			height: 140%;
@@ -117,7 +104,6 @@
 
 		.graphBlock{
 			height: 60%;
-			/*border: 1px solid black;*/
 			background-color: black;
 			margin:0 2% 2% 2%;
 			background-color:  var(--blockColor);
@@ -133,8 +119,6 @@
 			flex-direction: column;
 			margin: 1% 0; 
 			background-color:none;
-			/*background-color: var(--rightSideBar);*/
-
 		}
 		.simControlBlock{
 			height:50%;
@@ -161,7 +145,7 @@
 		input,select {
 			border:1px solid gray;
 			border-radius: 5px;
-			background-color: var(--transparentRed);
+			background-color: var(--inputField);
 			width:17%;
 			padding:1% 0 1%  2% ;
 
@@ -215,7 +199,6 @@
 
 		.clickBtn{
 			border:none;
-			/*background-color: var(--btnColor2);*/
 			background-color: var(--btnColor1);
 			color:white;
 			border-radius: 25px;
@@ -252,10 +235,7 @@
     	background-color: var(--disableBtn);
     	color:var(--text-disable);
     }
-
-		@media ( max-width: 1020px){
-
-			
+@media ( max-width: 1020px){			
 			.rightSideBar{
 				width:100%;
 				margin:0 5%;
@@ -298,7 +278,7 @@
 
 
 
-		@media (max-width: 520px){
+@media (max-width: 520px){
 			.rightSideBar{
 				width:100%;
 				margin:0 5%;
@@ -308,25 +288,9 @@
 				width:100%;
 
 			}
-
-			/*nav ul li{
-				background-color: black;
-			}
-			nav ul li a{
-				color: white;
-			}
-			nav ul li a#home{
-				color:red;
-			}
-			nav ul{
-				position: absolute;
-				z-index: 2;
-			}
-*/
-		}
-
+			
+}
 	
-
 h3{
 			color: var(--text-disable);
 			font-size: 0.9em;
@@ -353,9 +317,6 @@ h3{
 
 
 .displayResult{   /*display report*/
-	/*position: absolute;*/
-	/*top:60%;
-	left:60%;*/
 	border: 1px solid var(--text-disable);
 	width:80%;
 	height:20%;
@@ -428,12 +389,12 @@ h3{
 <body>
 	<div class="container">
 		<nav>
-				<div class="menuHeader">
+				<div class="menuHeader" >
 					<img id="menuIcon" src="../assets/svg/menuIcon1.svg" />
 				</div>
 
 				
-			<ul id="menuSlide" style="background-color: var(--brown);">
+			<ul id="menuSlide" style="background-color: var(--navBar);">
 				<li><a id="home" href="./index2.html">Home</a></li>
 				<li><a id="about" href="#">About</a></li>
 				<li><a href="#">Contact</a></li>
@@ -576,84 +537,14 @@ darkMode.addEventListener("change",(e)=>{
 
 
 function darkModeEnable(){
-		$(':root').css({'--navBar':'#301d1d','--rightSideBar':'#463a3a','--btnColor1': '#720d0d','--btnColor2': '#710e0e','--backgroundColor':'#433d3d','--text-black':'#d9d9d9','--text-label':'#a5a7a5','--text-white':'black','--text-disable':'#585a5b','--boxShadow' : '#8e8a8a','--blockColor':'#262626','--disableBtn': '#8b8d8e'});
+		$(':root').css({'--navBar':'#301d1d','--rightSideBar':'#463a3a','--btnColor1': '#720d0d','--btnColor2': '#710e0e','--backgroundColor':'#433d3d','--text-black':'#d9d9d9','--text-label':'#a5a7a5','--text-white':'black','--text-disable':'#585a5b','--boxShadow' : '#8e8a8a','--blockColor':'#262626','--disableBtn': '#8b8d8e','--inputField':'#7e6868'});
 }
 
 function darkModeDisable(){
-	$(':root').css({'--navBar':'#F9F5F5','--rightSideBar':'#ECE8E8','--btnColor1': '#560A0A','--btnColor2': '#AF1616','--backgroundColor':'#D4D0D0','--text-black':'black','--text-label':'#545654','--text-white':'white','--text-disable':'#818281','--boxShadow' : '#787474','--blockColor':'white','--disableBtn': '#666869'});
-	// document.documentElement.style.setProperty('--navBar','#F9F5F5');
+	$(':root').css({'--navBar':'#F9F5F5','--rightSideBar':'#ECE8E8','--btnColor1': '#560A0A','--btnColor2': '#AF1616','--backgroundColor':'#D4D0D0','--text-black':'black','--text-label':'#545654','--text-white':'white','--text-disable':'#818281','--boxShadow' : '#787474','--blockColor':'white','--disableBtn': '#666869','--inputField':'#d9d9d9'});
 }
 
 
-//-------------------- canvas --------------------------------------------
-
-
-	// const canvas = document.getElementById("simDisplay");
-	// const ctx = canvas.getContext("2d");
-
-	// var parent = document.getElementById("parent");
-	// canvas.width = parent.offsetWidth;
-	// canvas.height = parent.offsetHeight;
-	
-	// let gridSize = 20;
-	// let gridColor = "gray"; 
-
-
-// 	function displayGrid(){
-// 		//---- draw row --
-
-// 			ctx.lineWidth = 1;
-// 			ctx.strokeStyle = gridColor;
-			
-// 			for(i = 0 ; i <= parseInt(canvas.width/gridSize);i++){
-// 					ctx.beginPath();
-// 					ctx.moveTo(i*gridSize, 0);
-// 					ctx.lineTo(i*gridSize, canvas.height);
-// 					ctx.stroke();
-// 			}
-// 			for(i = 0 ; i <= parseInt(canvas.height/gridSize);i++){
-// 					ctx.beginPath();
-// 					ctx.moveTo(0,i*gridSize);
-// 					ctx.lineTo(canvas.width,i*gridSize);
-// 					ctx.stroke();
-// 			}
-
-// 			console.log(parseInt(canvas.width/gridSize),"row");
-// 			console.log(parseInt(canvas.height/gridSize),"col");
-
-
-// 	}
-
-// function clearScreen(){
-// 	ctx.clearRect(0,0,canvas.width,canvas.height);
-// }
-
-
-
-  //------------- event listeners -----------------
-  		// gridEnable.addEventListener("change",(e)=>{
-  		// 	if( e.target.checked)
-  		// 		 displayGrid();
-  		// 	else
-  		// 		clearScreen();
-  			
-  		// });
-
-
-//--------------------------------------------------------------------------
-
-
-// function body(){
-// 	ctx.strokeStyle = "red";
-
-// 	for (i=0; i<10;i=i+4){
-// 	ctx.beginPath();
-// 	ctx.arc(10+i,15,2,0,Math.PI*2);
-// 	ctx.stroke();
-//      }
-// }
-
-// body();
 
 
 </script>

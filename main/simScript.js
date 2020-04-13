@@ -64,7 +64,7 @@ const ctx2 = canvas2.getContext("2d");
 
 		//-------default settings ------------
 			const graphTypeDefault = graphSelect.value;
-			const gridSizeDefault = 20;
+			const gridSizeDefault = 10;
 			const gridColorDefault = "gray";
 
 	//--------------------------
@@ -73,37 +73,6 @@ const ctx2 = canvas2.getContext("2d");
 	 let gridColor = gridColorDefault; 
 
 
-
-
-// let startBtn = document.getElementById("start");
-// let stopBtn = document.getElementById("stop");
-// let isolate = document.getElementById("isolate");
-// let totalPeople = document.getElementById("population");
-
-// let daysDisplay = document.getElementById("noOfDays");
-// let totalPopulationDisplay= document.getElementById("totalPopulation");
-// let totalCuredDisplay = document.getElementById("totalCured");
-// let totalDeathDisplay = document.getElementById("totalDeath");
-// let totalInfectedDisplay = document.getElementById("totalInfected");
-
-
-// // global variables
-// 	var MaxPeople;
-// 	var peopleList = [];
-// 	var totalCured = 0;
-// 	var totalDeath = 0;
-// 	var totalPopulation = 0; 
-
-// 	var avgWalk = 300; // 3000 to 4000 per day 
-// 	var dayCount = 0;
-// 	var delay = 0.1;
-// 	var spreadingDistance = 3;
-// 	var ageClasses = ['8+','7','6','5','4','3','2','1'];
-
-// 	var infectedPace = 0.2;
-
-// var canvas = document.getElementById("canvas");
-// var ctx = canvas.getContext("2d");
 
 
 
@@ -121,7 +90,7 @@ class People{
 		this.id = id;
 		this.currentPosition = {'X':x , 'Y':y};
 		this.oldPosition = {'X':this.currentPosition.X,'Y':this.currentPosition.Y};
-		this.size = {'x':2,'y':2};
+		this.size = {'x':3,'y':3};
 		this.pace = this.size.x;
 		this.isInfected  = false;
 		this.alive = true; 
@@ -411,14 +380,6 @@ function startSimulation(){
 			var x = parseInt(Math.random()*Math.random()*canvas.width);
 			var y = parseInt(Math.random()*Math.random()*canvas.height);
 
-			//exponential distribution 
-
-				// var x = (parseInt(Math.log(Math.random())/2*canvas.width));
-				// var y =(parseInt(Math.log(Math.random())/2*canvas.height));
-
-			// var x =Math.abs(parseInt(randn_bm()*canvas.width));
-			// var y = Math.abs(parseInt(randn_bm()*canvas.height));	
-
 			peopleList[i] = new People(i,x,y);
 		}
 
@@ -564,29 +525,7 @@ function updateChart(dayCount,death,infected,recovered){
 		chart.update();	
 }
 
-// let update = setInterval(function(){
-	
-	 // chart.data.datasets.forEach((dataset) => {
-  //       dataset.data.push(parseInt(Math.random()*100));
-  //   });
-	 // chart.data.datasets.forEach((dataset) => {
-  //       dataset.data.push(parseInt(Math.random()*100));
-  //   });
 
-  
- //  chart.data.labels.push('day-'+(++day));
- //   chart.data.datasets[0].data.push(parseInt(Math.random()*100));
-
-	// count++;
-
-	// chart.update();
-
-// },200);
-
-// setTimeout(() => { clearInterval(update)},10000); 
-
-// chart.canvas.parentNode.style.height = '500px';
-// chart.canvas.parentNode.style.width = '500px';
 
 //-------------------------------------- graph control -------------------------------------------------
 	function applyGraphType(){

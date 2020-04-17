@@ -1,7 +1,7 @@
 # [covid-19 simulator](https://rawcdn.githack.com/s-4-m-a-n/covid-19-simulator/de5f2e8a61368dba24ca971836cdec03798aa839/main/index2.html)
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source-150x25.png?v=103)](https://github.com/s-4-m-a-n)
 
-It is a web based simulator that allows us to visualize outbreakes like covid-19 spreading exponentially. 
+It is a web based simulator that allows us to visualize outbreaks like covid-19 spreading exponentially. 
 
 An additional feature -real time world wide total cases, total infected and total recovered is also included using API
 
